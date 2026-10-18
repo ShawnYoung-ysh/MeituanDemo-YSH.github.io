@@ -4,6 +4,8 @@
 
 当前阶段：已上线占位首页；发布任务、接单、完成确认和信用评价尚待实现。当前没有真实账号、支付或多人共享数据库。
 
+task 1-2 已准备手机端开发方案、两天排期和虚构 Mock 种子。Mock 数据尚未接入占位页面，后续开发按交接方案实现。
+
 ## 开发与发布约定
 
 - 使用原生 HTML、CSS、JavaScript，暂不引入框架或构建依赖。
@@ -52,6 +54,9 @@ node scripts/check-site.mjs --url https://shawnyoung-ysh.github.io/MeituanDemo-Y
 
 ## 项目记录
 
+- [开发交接方案与排期](docs/DEVELOPMENT_PLAN.md)
+- [Android / iOS 验收清单](docs/MOBILE_ACCEPTANCE.md)
+- [Mock 数据接入说明](docs/MOCK_DATA.md)与[种子数据](mock/db.json)
 - [阶段验收与待办](docs/ACCEPTANCE.md)
 - [变更记录](CHANGELOG.md)
 - [提交信息](docs/SUBMISSION.md)

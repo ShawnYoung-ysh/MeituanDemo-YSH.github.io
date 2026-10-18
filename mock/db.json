@@ -1,0 +1,623 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "datasetVersion": "2026-10-18.1",
+    "fictional": true,
+    "disclosure": "全部学校、用户、地点、任务及评价均为虚构演示；无真实身份认证、支付或多人共享数据库。",
+    "timeMode": "relative-minutes",
+    "anchorPolicy": "capture Date.now() on first initialization or explicit reset only",
+    "storageKey": "campus-errand-demo:v1",
+    "defaultUserId": "u001",
+    "currency": "CNY"
+  },
+  "campuses": [
+    {
+      "id": "c001",
+      "name": "青禾大学·北苑校区（虚构）",
+      "fictional": true
+    }
+  ],
+  "locations": [
+    {
+      "id": "l001",
+      "name": "北门驿站",
+      "campusId": "c001",
+      "fictional": true
+    },
+    {
+      "id": "l002",
+      "name": "第一食堂",
+      "campusId": "c001",
+      "fictional": true
+    },
+    {
+      "id": "l003",
+      "name": "图书馆门口",
+      "campusId": "c001",
+      "fictional": true
+    },
+    {
+      "id": "l004",
+      "name": "学生公寓公共门厅",
+      "campusId": "c001",
+      "fictional": true
+    },
+    {
+      "id": "l005",
+      "name": "校园打印店",
+      "campusId": "c001",
+      "fictional": true
+    },
+    {
+      "id": "l006",
+      "name": "校园便利店",
+      "campusId": "c001",
+      "fictional": true
+    }
+  ],
+  "users": [
+    {
+      "id": "u001",
+      "nickname": "小周（演示）",
+      "campusId": "c001",
+      "creditBase": 80,
+      "campusVerification": "demo_unverified",
+      "avatarText": "周"
+    },
+    {
+      "id": "u002",
+      "nickname": "阿晴（演示）",
+      "campusId": "c001",
+      "creditBase": 78,
+      "campusVerification": "demo_unverified",
+      "avatarText": "晴"
+    },
+    {
+      "id": "u003",
+      "nickname": "小林（演示）",
+      "campusId": "c001",
+      "creditBase": 84,
+      "campusVerification": "demo_unverified",
+      "avatarText": "林"
+    },
+    {
+      "id": "u004",
+      "nickname": "糖糖（演示）",
+      "campusId": "c001",
+      "creditBase": 75,
+      "campusVerification": "demo_unverified",
+      "avatarText": "糖"
+    },
+    {
+      "id": "u005",
+      "nickname": "新同学（低信用测试）",
+      "campusId": "c001",
+      "creditBase": 58,
+      "campusVerification": "demo_unverified",
+      "avatarText": "新"
+    }
+  ],
+  "categories": [
+    {
+      "id": "express",
+      "name": "代取快递"
+    },
+    {
+      "id": "shopping",
+      "name": "代买物品"
+    },
+    {
+      "id": "printing",
+      "name": "打印代办"
+    },
+    {
+      "id": "other",
+      "name": "其他互助"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "t001",
+      "campusId": "c001",
+      "category": "express",
+      "title": "帮取一件小包裹，送到公寓门厅",
+      "description": "小件包裹约一公斤，取件信息在演示里不展示，请送到公共门厅。",
+      "publisherId": "u001",
+      "runnerId": null,
+      "status": "open",
+      "pickupLocationId": "l001",
+      "dropoffLocationId": "l004",
+      "rewardCents": 300,
+      "goodsBudgetCents": 0,
+      "createdOffsetMinutes": -20,
+      "deadlineOffsetMinutes": 40,
+      "updatedOffsetMinutes": -20,
+      "revision": 1,
+      "completionNote": null,
+      "disputeReason": null,
+      "timeline": [
+        {
+          "id": "t001-e1",
+          "action": "published",
+          "atOffsetMinutes": -20,
+          "actorId": "u001"
+        }
+      ]
+    },
+    {
+      "id": "t002",
+      "campusId": "c001",
+      "category": "shopping",
+      "title": "顺路带一份食堂晚餐",
+      "description": "需要一份青菜米饭，不加辣。商品预算单列，演示不发生支付。",
+      "publisherId": "u003",
+      "runnerId": null,
+      "status": "open",
+      "pickupLocationId": "l002",
+      "dropoffLocationId": "l004",
+      "rewardCents": 400,
+      "goodsBudgetCents": 1800,
+      "createdOffsetMinutes": -15,
+      "deadlineOffsetMinutes": 90,
+      "updatedOffsetMinutes": -15,
+      "revision": 1,
+      "completionNote": null,
+      "disputeReason": null,
+      "timeline": [
+        {
+          "id": "t002-e1",
+          "action": "published",
+          "atOffsetMinutes": -15,
+          "actorId": "u003"
+        }
+      ]
+    },
+    {
+      "id": "t003",
+      "campusId": "c001",
+      "category": "printing",
+      "title": "打印课程资料并送到图书馆门口",
+      "description": "黑白双面打印二十页，纸张费用计入商品预算，文件仅为虚构描述。",
+      "publisherId": "u004",
+      "runnerId": null,
+      "status": "open",
+      "pickupLocationId": "l005",
+      "dropoffLocationId": "l003",
+      "rewardCents": 500,
+      "goodsBudgetCents": 600,
+      "createdOffsetMinutes": -10,
+      "deadlineOffsetMinutes": 120,
+      "updatedOffsetMinutes": -10,
+      "revision": 1,
+      "completionNote": null,
+      "disputeReason": null,
+      "timeline": [
+        {
+          "id": "t003-e1",
+          "action": "published",
+          "atOffsetMinutes": -10,
+          "actorId": "u004"
+        }
+      ]
+    },
+    {
+      "id": "t004",
+      "campusId": "c001",
+      "category": "other",
+      "title": "从便利店顺路帮带文具到图书馆门口，长标题换行测试",
+      "description": "需要一支黑色中性笔和一个文件袋，物品价格在预算内即可。",
+      "publisherId": "u005",
+      "runnerId": null,
+      "status": "open",
+      "pickupLocationId": "l006",
+      "dropoffLocationId": "l003",
+      "rewardCents": 200,
+      "goodsBudgetCents": 1000,
+      "createdOffsetMinutes": -5,
+      "deadlineOffsetMinutes": 180,
+      "updatedOffsetMinutes": -5,
+      "revision": 1,
+      "completionNote": null,
+      "disputeReason": null,
+      "timeline": [
+        {
+          "id": "t004-e1",
+          "action": "published",
+          "atOffsetMinutes": -5,
+          "actorId": "u005"
+        }
+      ]
+    },
+    {
+      "id": "t005",
+      "campusId": "c001",
+      "category": "express",
+      "title": "代取课程用品包裹",
+      "description": "包裹为虚构课程用品，已由演示同学接单，等待开始跑腿。",
+      "publisherId": "u003",
+      "runnerId": "u001",
+      "status": "accepted",
+      "pickupLocationId": "l001",
+      "dropoffLocationId": "l003",
+      "rewardCents": 300,
+      "goodsBudgetCents": 0,
+      "createdOffsetMinutes": -50,
+      "deadlineOffsetMinutes": 60,
+      "updatedOffsetMinutes": -30,
+      "revision": 2,
+      "completionNote": null,
+      "disputeReason": null,
+      "timeline": [
+        {
+          "id": "t005-e1",
+          "action": "published",
+          "atOffsetMinutes": -50,
+          "actorId": "u003"
+        },
+        {
+          "id": "t005-e2",
+          "action": "accepted",
+          "atOffsetMinutes": -30,
+          "actorId": "u001"
+        }
+      ]
+    },
+    {
+      "id": "t006",
+      "campusId": "c001",
+      "category": "shopping",
+      "title": "帮带一瓶矿泉水和笔记本",
+      "description": "接单者正在执行，请在公共地点交接；所有订单费用均为演示。",
+      "publisherId": "u001",
+      "runnerId": "u002",
+      "status": "in_progress",
+      "pickupLocationId": "l006",
+      "dropoffLocationId": "l003",
+      "rewardCents": 300,
+      "goodsBudgetCents": 1500,
+      "createdOffsetMinutes": -60,
+      "deadlineOffsetMinutes": 30,
+      "updatedOffsetMinutes": -20,
+      "revision": 3,
+      "completionNote": null,
+      "disputeReason": null,
+      "timeline": [
+        {
+          "id": "t006-e1",
+          "action": "published",
+          "atOffsetMinutes": -60,
+          "actorId": "u001"
+        },
+        {
+          "id": "t006-e2",
+          "action": "accepted",
+          "atOffsetMinutes": -40,
+          "actorId": "u002"
+        },
+        {
+          "id": "t006-e3",
+          "action": "started",
+          "atOffsetMinutes": -20,
+          "actorId": "u002"
+        }
+      ]
+    },
+    {
+      "id": "t007",
+      "campusId": "c001",
+      "category": "printing",
+      "title": "打印报告后送到公寓公共门厅",
+      "description": "资料已经送达公共门厅，等待发布者确认，可以演示完成后的信用变化。",
+      "publisherId": "u001",
+      "runnerId": "u004",
+      "status": "awaiting_confirmation",
+      "pickupLocationId": "l005",
+      "dropoffLocationId": "l004",
+      "rewardCents": 500,
+      "goodsBudgetCents": 800,
+      "createdOffsetMinutes": -90,
+      "deadlineOffsetMinutes": 45,
+      "updatedOffsetMinutes": -10,
+      "revision": 4,
+      "completionNote": "已在约定公共地点交付（虚构演示）。",
+      "disputeReason": null,
+      "timeline": [
+        {
+          "id": "t007-e1",
+          "action": "published",
+          "atOffsetMinutes": -90,
+          "actorId": "u001"
+        },
+        {
+          "id": "t007-e2",
+          "action": "accepted",
+          "atOffsetMinutes": -60,
+          "actorId": "u004"
+        },
+        {
+          "id": "t007-e3",
+          "action": "started",
+          "atOffsetMinutes": -30,
+          "actorId": "u004"
+        },
+        {
+          "id": "t007-e4",
+          "action": "completion_submitted",
+          "atOffsetMinutes": -10,
+          "actorId": "u004"
+        }
+      ]
+    },
+    {
+      "id": "t008",
+      "campusId": "c001",
+      "category": "express",
+      "title": "取快递并送到图书馆门口",
+      "description": "这是一条已完成的虚构历史任务，用于展示评价和信用明细。",
+      "publisherId": "u001",
+      "runnerId": "u002",
+      "status": "completed",
+      "pickupLocationId": "l001",
+      "dropoffLocationId": "l003",
+      "rewardCents": 300,
+      "goodsBudgetCents": 0,
+      "createdOffsetMinutes": -300,
+      "deadlineOffsetMinutes": -100,
+      "updatedOffsetMinutes": -150,
+      "revision": 5,
+      "completionNote": "已在约定公共地点交付（虚构演示）。",
+      "disputeReason": null,
+      "timeline": [
+        {
+          "id": "t008-e1",
+          "action": "published",
+          "atOffsetMinutes": -300,
+          "actorId": "u001"
+        },
+        {
+          "id": "t008-e2",
+          "action": "accepted",
+          "atOffsetMinutes": -240,
+          "actorId": "u002"
+        },
+        {
+          "id": "t008-e3",
+          "action": "started",
+          "atOffsetMinutes": -210,
+          "actorId": "u002"
+        },
+        {
+          "id": "t008-e4",
+          "action": "completion_submitted",
+          "atOffsetMinutes": -180,
+          "actorId": "u002"
+        },
+        {
+          "id": "t008-e5",
+          "action": "completed",
+          "atOffsetMinutes": -150,
+          "actorId": "u001"
+        }
+      ]
+    },
+    {
+      "id": "t009",
+      "campusId": "c001",
+      "category": "shopping",
+      "title": "帮带两支中性笔",
+      "description": "这是一条已完成的文具代买任务，用于展示另一位同学的信用事件。",
+      "publisherId": "u003",
+      "runnerId": "u001",
+      "status": "completed",
+      "pickupLocationId": "l006",
+      "dropoffLocationId": "l004",
+      "rewardCents": 200,
+      "goodsBudgetCents": 600,
+      "createdOffsetMinutes": -240,
+      "deadlineOffsetMinutes": -90,
+      "updatedOffsetMinutes": -140,
+      "revision": 5,
+      "completionNote": "已在约定公共地点交付（虚构演示）。",
+      "disputeReason": null,
+      "timeline": [
+        {
+          "id": "t009-e1",
+          "action": "published",
+          "atOffsetMinutes": -240,
+          "actorId": "u003"
+        },
+        {
+          "id": "t009-e2",
+          "action": "accepted",
+          "atOffsetMinutes": -210,
+          "actorId": "u001"
+        },
+        {
+          "id": "t009-e3",
+          "action": "started",
+          "atOffsetMinutes": -190,
+          "actorId": "u001"
+        },
+        {
+          "id": "t009-e4",
+          "action": "completion_submitted",
+          "atOffsetMinutes": -160,
+          "actorId": "u001"
+        },
+        {
+          "id": "t009-e5",
+          "action": "completed",
+          "atOffsetMinutes": -140,
+          "actorId": "u003"
+        }
+      ]
+    },
+    {
+      "id": "t010",
+      "campusId": "c001",
+      "category": "other",
+      "title": "帮送一本课程笔记到公共门厅",
+      "description": "发布者行程改变，在尚未接单时取消，双方信用分不会变化。",
+      "publisherId": "u004",
+      "runnerId": null,
+      "status": "cancelled",
+      "pickupLocationId": "l003",
+      "dropoffLocationId": "l004",
+      "rewardCents": 0,
+      "goodsBudgetCents": 0,
+      "createdOffsetMinutes": -100,
+      "deadlineOffsetMinutes": 60,
+      "updatedOffsetMinutes": -80,
+      "revision": 2,
+      "completionNote": null,
+      "disputeReason": null,
+      "timeline": [
+        {
+          "id": "t010-e1",
+          "action": "published",
+          "atOffsetMinutes": -100,
+          "actorId": "u004"
+        },
+        {
+          "id": "t010-e2",
+          "action": "cancelled",
+          "atOffsetMinutes": -80,
+          "actorId": "u004"
+        }
+      ]
+    },
+    {
+      "id": "t011",
+      "campusId": "c001",
+      "category": "express",
+      "title": "限时取件，已截止示例",
+      "description": "这条任务已超过截止时间，不允许再接单，用于验证状态保护。",
+      "publisherId": "u003",
+      "runnerId": null,
+      "status": "expired",
+      "pickupLocationId": "l001",
+      "dropoffLocationId": "l004",
+      "rewardCents": 600,
+      "goodsBudgetCents": 0,
+      "createdOffsetMinutes": -120,
+      "deadlineOffsetMinutes": -60,
+      "updatedOffsetMinutes": -60,
+      "revision": 2,
+      "completionNote": null,
+      "disputeReason": null,
+      "timeline": [
+        {
+          "id": "t011-e1",
+          "action": "published",
+          "atOffsetMinutes": -120,
+          "actorId": "u003"
+        },
+        {
+          "id": "t011-e2",
+          "action": "expired",
+          "atOffsetMinutes": -60,
+          "actorId": null
+        }
+      ]
+    },
+    {
+      "id": "t012",
+      "campusId": "c001",
+      "category": "printing",
+      "title": "资料交付待核对示例",
+      "description": "发布者对交付内容提出异议，演示显示待处理，不自动扣分或完成。",
+      "publisherId": "u003",
+      "runnerId": "u004",
+      "status": "disputed",
+      "pickupLocationId": "l005",
+      "dropoffLocationId": "l003",
+      "rewardCents": 500,
+      "goodsBudgetCents": 1000,
+      "createdOffsetMinutes": -150,
+      "deadlineOffsetMinutes": -30,
+      "updatedOffsetMinutes": -50,
+      "revision": 5,
+      "completionNote": "已在约定公共地点交付（虚构演示）。",
+      "disputeReason": "演示：资料页数需核对，等待双方沟通。",
+      "timeline": [
+        {
+          "id": "t012-e1",
+          "action": "published",
+          "atOffsetMinutes": -150,
+          "actorId": "u003"
+        },
+        {
+          "id": "t012-e2",
+          "action": "accepted",
+          "atOffsetMinutes": -130,
+          "actorId": "u004"
+        },
+        {
+          "id": "t012-e3",
+          "action": "started",
+          "atOffsetMinutes": -100,
+          "actorId": "u004"
+        },
+        {
+          "id": "t012-e4",
+          "action": "completion_submitted",
+          "atOffsetMinutes": -70,
+          "actorId": "u004"
+        },
+        {
+          "id": "t012-e5",
+          "action": "disputed",
+          "atOffsetMinutes": -50,
+          "actorId": "u003"
+        }
+      ]
+    }
+  ],
+  "reviews": [
+    {
+      "id": "r001",
+      "taskId": "t008",
+      "authorId": "u001",
+      "targetUserId": "u002",
+      "rating": 5,
+      "comment": "送达及时，交接清楚。（演示评价）",
+      "createdOffsetMinutes": -145
+    },
+    {
+      "id": "r002",
+      "taskId": "t008",
+      "authorId": "u002",
+      "targetUserId": "u001",
+      "rating": 5,
+      "comment": "任务描述清晰，确认很及时。（演示评价）",
+      "createdOffsetMinutes": -144
+    },
+    {
+      "id": "r003",
+      "taskId": "t009",
+      "authorId": "u003",
+      "targetUserId": "u001",
+      "rating": 4,
+      "comment": "物品齐全，沟通顺畅。（演示评价）",
+      "createdOffsetMinutes": -130
+    }
+  ],
+  "creditEvents": [
+    {
+      "id": "ce001",
+      "taskId": "t008",
+      "userId": "u002",
+      "type": "task_completed",
+      "delta": 2,
+      "createdOffsetMinutes": -150
+    },
+    {
+      "id": "ce002",
+      "taskId": "t009",
+      "userId": "u001",
+      "type": "task_completed",
+      "delta": 2,
+      "createdOffsetMinutes": -140
+    }
+  ]
+}

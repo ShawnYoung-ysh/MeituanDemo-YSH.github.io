@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/serve.mjs",
-    "check": "node scripts/check-site.mjs",
+    "check": "node scripts/check-site.mjs && node scripts/check-mock.mjs",
+    "check:mock": "node scripts/check-mock.mjs",
     "check:live": "node scripts/check-site.mjs --url https://shawnyoung-ysh.github.io/MeituanDemo-YSH.github.io/"
   },
   "engines": { "node": ">=22" }
