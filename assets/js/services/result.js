@@ -11,3 +11,12 @@ export async function serviceResult(operation) {
     } };
   }
 }
+
+// Observe failures from every page without retrying or changing a business result.
+export function observeServiceErrors(service, onError) {
+  return Object.fromEntries(Object.entries(service).map(([name, operation]) => [name, async (...args) => {
+    const result = await operation(...args);
+    if (!result.ok) onError(result.error);
+    return result;
+  }]));
+}

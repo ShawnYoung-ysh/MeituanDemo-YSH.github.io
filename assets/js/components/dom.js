@@ -14,6 +14,14 @@ export function button(label, action, className = 'button') {
   return node;
 }
 
+export function serviceErrorPage(error, retry, missingTitle = '未找到内容') {
+  const missing = error.code === 'NOT_FOUND';
+  return el('div', { class: 'page' }, el('section', { class: 'panel error-panel', role: 'alert' },
+    el('h1', { tabindex: '-1' }, missing ? missingTitle : '暂时无法加载此页'), el('p', {}, error.message),
+    !missing && retry ? button('重试此页', retry, 'button button-secondary') : null,
+    el('a', { href: '#/hall', class: 'button button-secondary' }, '返回任务大厅')));
+}
+
 export function confirmReset() {
   return new Promise(resolve => {
     const dialog = el('dialog', { class: 'confirm-dialog', 'aria-labelledby': 'reset-title', 'aria-describedby': 'reset-description' });

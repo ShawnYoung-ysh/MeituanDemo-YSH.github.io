@@ -7,9 +7,12 @@ import { createHallState } from './pages/hallPage.js';
 import { createPublishDraft, hasDraftContent } from './pages/publishPage.js';
 import { createMyTasksState } from './pages/myTasksPage.js';
 import { STORAGE_KEY } from './data/snapshot.js';
+import { observeServiceErrors } from './services/result.js';
 
 const repository = createMockRepository();
-const service = createDemoService(repository);
+const service = observeServiceErrors(createDemoService(repository), error => {
+  if (error.code === 'EXTERNAL_CHANGE') showExternalChange();
+});
 const main = document.querySelector('#main-content');
 const banner = document.querySelector('#session-banner');
 const intro = document.querySelector('#intro');
@@ -103,6 +106,7 @@ function announce(message, error = false) {
 
 function showFailure(error) {
   pageController?.abort();
+  ++renderVersion;
   ready = false;
   lastError = error;
   banner.replaceChildren();
@@ -131,6 +135,7 @@ async function render(focus = false) {
   if (!result.ok) { if (result.error.code === 'EXTERNAL_CHANGE') return showExternalChange(); return showFailure(result.error); }
   const session = result.data;
   const page = await renderPage(route, session, service, { actorId: session.activeUser.id, switchUser, reset, hallState, getPublishDraft, onPublished, signal: controller.signal,
+    retry: retryPage,
     myTasksState: getMyTasksState(session.activeUser.id), taskOrigin, onTaskOrigin: origin => { taskOrigin = origin; },
     onPersistence: persistence => { if (!controller.signal.aborted) showPersistence(persistence); } });
   if (version !== renderVersion) return;
@@ -162,10 +167,12 @@ async function perform(operation, successMessage) {
   setBusy(true);
   try {
     const result = await operation();
+    if (externalChange) return;
     if (!result.ok) { announce(result.error.message, true); return; }
     ready = true;
     lastError = null;
     await render();
+    if (externalChange) return;
     announce(result.data.persistence.mode === 'memory' ? `${successMessage}当前为临时会话，刷新可能无法保留。` : successMessage);
   } catch {
     announce('页面更新失败，请刷新后重试。', true);
@@ -178,10 +185,11 @@ function switchUser(userId) {
 
 async function reset() {
   if (busy) return;
+  const previousFocus = document.activeElement;
   setBusy(true);
   const confirmed = await confirmReset();
   setBusy(false);
-  if (!confirmed) { announce('已取消重置，当前记录保持不变。'); return; }
+  if (!confirmed) { announce('已取消重置，当前记录保持不变。'); if (previousFocus?.isConnected && !externalChange) previousFocus.focus(); return; }
   await perform(async () => {
     const result = await service.resetDemo(true);
     if (result.ok) { Object.assign(hallState, createHallState()); taskStates.clear(); publishDrafts.clear(); publishNotice = null; taskOrigin = 'hall'; }
@@ -196,19 +204,34 @@ async function initialize() {
   announce('');
   try {
     const result = await service.initialize();
+    if (externalChange) return;
     if (!result.ok) { showFailure(result.error); return; }
     ready = true;
     lastError = null;
     await render();
   } catch {
-    showFailure({ code: 'INTERNAL_ERROR', message: '页面加载未完成，请重试。' });
+    if (!externalChange) showFailure({ code: 'INTERNAL_ERROR', message: '页面加载未完成，请重试。' });
   } finally { setBusy(false); }
+}
+
+function retryPage() {
+  if (!ready || externalChange) return;
+  const pending = render(true);
+  const version = renderVersion;
+  void pending.catch(() => {
+    if (externalChange || version !== renderVersion) return;
+    pageController?.abort();
+    main.replaceChildren(el('section', { class: 'panel error-panel', role: 'alert' },
+      el('h1', { tabindex: '-1' }, '页面暂时无法显示'), el('p', {}, '请重试此页，本次会话内的发布输入仍会保留。'),
+      button('重试此页', retryPage), el('a', { href: '#/hall', class: 'button button-secondary' }, '返回任务大厅')));
+    main.querySelector('h1')?.focus();
+  });
 }
 
 startRouter(() => {
   if (resolveRoute(window.location.hash).name === 'hall') taskOrigin = 'hall';
   announce('');
-  if (ready) void render(true).catch(() => announce('页面加载失败，请重试。', true));
+  if (ready) retryPage();
   else if (lastError) showFailure(lastError);
 });
 void initialize();

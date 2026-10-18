@@ -1,4 +1,4 @@
-import { button, el } from '../components/dom.js';
+import { button, el, serviceErrorPage } from '../components/dom.js';
 import { formatLocalDeadline, parseLocalDeadline, validateTaskForm } from '../services/formValidation.js';
 
 export const createPublishDraft = () => ({
@@ -7,9 +7,9 @@ export const createPublishDraft = () => ({
 });
 export const hasDraftContent = draft => Object.values(draft.values).some(value => value.trim() !== '');
 
-export async function renderPublishPage(session, service, { signal, getPublishDraft, onPublished, onPersistence }) {
+export async function renderPublishPage(session, service, { signal, getPublishDraft, onPublished, onPersistence, retry }) {
   const optionsResult = await service.getPublishOptions();
-  if (!optionsResult.ok) return el('div', { class: 'page' }, el('h1', {}, '暂时无法发布'), el('p', {}, optionsResult.error.message), el('a', { href: '#/hall', class: 'button' }, '返回任务大厅'));
+  if (!optionsResult.ok) return serviceErrorPage(optionsResult.error, retry);
   const options = optionsResult.data;
   const draft = getPublishDraft(session.activeUser.id);
   const controls = new Map();
@@ -107,6 +107,7 @@ export async function renderPublishPage(session, service, { signal, getPublishDr
     try {
       const result = await service.createTask({ actorId: options.actor.id, form: formData, requestId: draft.requestId });
       if (!result.ok) {
+        for (const control of form.querySelectorAll('input,textarea,select,button')) control.disabled = false;
         if (!signal.aborted) showErrors(result.error.fields || (result.error.field ? { [result.error.field]: result.error.message } : {}), result.error.message);
         return;
       }

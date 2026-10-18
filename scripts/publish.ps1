@@ -8,6 +8,8 @@ try {
   if ($LASTEXITCODE -ne 0) { throw 'Mock 数据检查失败，未上传。' }
   & node scripts/check-js.mjs
   if ($LASTEXITCODE -ne 0) { throw 'JavaScript 模块检查失败，未上传。' }
+  & node scripts/check-budget.mjs
+  if ($LASTEXITCODE -ne 0) { throw '静态资源体积检查失败，未上传。' }
   & node --test
   if ($LASTEXITCODE -ne 0) { throw '自动化测试失败，未上传。' }
   $branchName = (& git branch --show-current).Trim()

@@ -51,6 +51,7 @@ export function reviewSection(task, service, { actorId, signal, onPersistence, o
       const result = await service.addReview({ ...input, actorId, taskId: task.id, requestId: requests.get(fingerprint) });
       if (signal.aborted) return;
       if (!result.ok) {
+        rating.disabled = comment.disabled = submit.disabled = false;
         feedback.textContent = result.error.message; feedback.hidden = false; feedback.className = 'feedback feedback-error';
         showErrors(result.error.fields ?? {});
         if (!result.error.fields) feedback.focus({ preventScroll: true });

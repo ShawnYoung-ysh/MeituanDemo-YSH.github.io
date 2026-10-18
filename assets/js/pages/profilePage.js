@@ -1,10 +1,10 @@
-import { button, el } from '../components/dom.js';
+import { button, el, serviceErrorPage } from '../components/dom.js';
 import { localTime } from '../components/format.js';
 import { reviewItem } from '../components/reviewSection.js';
 
 export async function renderProfilePage(session, service, actions) {
   const result = await service.getProfile();
-  if (!result.ok) return el('div', { class: 'page' }, el('h1', { tabindex: '-1' }, '资料暂时无法加载'), el('p', {}, result.error.message));
+  if (!result.ok) return serviceErrorPage(result.error, actions.retry);
   const profile = result.data;
   const select = el('select', { id: 'demo-user', name: 'demo-user' }, ...session.users.map(user =>
     el('option', { value: user.id, selected: user.id === profile.id }, `${user.nickname} · 信用 ${user.credit}`)));

@@ -19,10 +19,11 @@ export function createMockRepository({ getStorage = () => globalThis.localStorag
   let mode = 'persistent';
   let queue = Promise.resolve();
   let persistedRaw = null;
+  let baselineKnown = false;
   let invalidated = false;
   const assertCurrent = () => {
     if (invalidated) throw new DemoError('EXTERNAL_CHANGE', '其他标签页已更新演示记录，请刷新此页后继续；未提交输入可能丢失。');
-    if (snapshot && mode === 'persistent') {
+    if (baselineKnown && mode === 'persistent') {
       let current;
       try { current = storage.getItem(STORAGE_KEY); }
       catch { mode = 'memory'; return; }
@@ -82,7 +83,7 @@ export function createMockRepository({ getStorage = () => globalThis.localStorag
       const target = accessStorage();
       let raw = null;
       if (mode === 'persistent') {
-        try { raw = target.getItem(STORAGE_KEY); }
+        try { raw = target.getItem(STORAGE_KEY); persistedRaw = raw; baselineKnown = true; }
         catch { mode = 'memory'; }
       }
       if (raw !== null) {
@@ -111,6 +112,10 @@ export function createMockRepository({ getStorage = () => globalThis.localStorag
       assertCurrent();
       if (confirmed !== true) throw new DemoError('CONFIRMATION_REQUIRED', '请先确认重置演示。');
       accessStorage();
+      if (!baselineKnown && mode === 'persistent') {
+        try { persistedRaw = storage.getItem(STORAGE_KEY); baselineKnown = true; }
+        catch { mode = 'memory'; }
+      }
       // Prepare first, then replace this key only. Failed downloads preserve old data.
       return save(await freshSnapshot());
     }),

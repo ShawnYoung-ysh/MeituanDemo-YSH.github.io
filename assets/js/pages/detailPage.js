@@ -1,4 +1,4 @@
-import { button, el } from '../components/dom.js';
+import { button, el, serviceErrorPage } from '../components/dom.js';
 import { localTime, formatMoneyCents } from '../components/format.js';
 import { requestTaskAction } from '../components/taskActionDialog.js';
 import { TASK_ACTIONS } from '../services/taskRules.js';
@@ -29,9 +29,9 @@ function stateGuidance(task) {
   }[task.status];
 }
 
-export async function renderDetailPage(taskId, service, { signal, onPersistence, actorId, taskOrigin = 'hall' }) {
+export async function renderDetailPage(taskId, service, { signal, onPersistence, actorId, taskOrigin = 'hall', retry }) {
   const result = await service.getTask(taskId);
-  if (!result.ok) return el('div', { class: 'page' }, el('h1', { tabindex: '-1' }, '未找到任务'), el('p', {}, result.error.message), el('a', { href: '#/hall', class: 'button' }, '返回任务大厅'));
+  if (!result.ok) return serviceErrorPage(result.error, retry, '未找到任务');
   let task = result.data;
   const status = el('span', { class: 'task-state-badge' });
   const guidance = el('p', { class: 'detail-guidance', role: 'status' });
