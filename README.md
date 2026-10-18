@@ -2,9 +2,11 @@
 
 固定作品网址：<https://shawnyoung-ysh.github.io/MeituanDemo-YSH.github.io/>
 
-当前阶段：已上线占位首页；发布任务、接单、完成确认和信用评价尚待实现。当前没有真实账号、支付或多人共享数据库。
+当前版本：v0.5.0。任务大厅、发布、详情、七种状态操作、我的任务、个人资料、信用明细与双方评价已实现。同一浏览器可通过页面入口跑通“发布→切换身份接单→交付→发布者确认→双方评价”；确认完成向跑腿者唯一入账 +2，信用封顶 100，评价不额外加分。当前没有真实账号、支付或多人共享数据库。
 
-task 1-2 已准备手机端开发方案、两天排期和虚构 Mock 种子。Mock 数据尚未接入占位页面，后续开发按交接方案实现。
+Mock 数据已接入；普通刷新恢复已有快照，不重新移动截止时间。大厅仅展示同校区待接单任务；我的任务按“我发布的 / 我接的”和状态筛选，保留历史进度及本次会话的筛选/返回位置。信用明细解释历史基数、事件增量和封顶后的实际变化；评分与发布/跑腿完成数分别计算。双方各可评一次，1–5 星、选填文字最多 300 字，内容按纯文本展示。
+
+未提交发布输入按身份在本次会话内保留，刷新或关闭页面前提示可能丢失。损坏记录有恢复入口，存储失败明确提示临时会话；其他标签页变更时提示刷新并阻止旧页继续写入，不保证跨标签抢单事务。Android/iPhone 真机、移动网络与完整发布门槛仍待后续验收。实际提交与部署结果见 [验收记录](docs/ACCEPTANCE.md)。下一轮为 task 1-9：异常路径与功能冻结。
 
 ## 开发与发布约定
 
@@ -29,6 +31,11 @@ pnpm dev
 
 ```powershell
 pnpm check
+# 无包管理器时，可直接执行：
+node scripts/check-site.mjs
+node scripts/check-mock.mjs
+node scripts/check-js.mjs
+node --test
 git diff
 git add <本次明确要提交的文件>
 git commit -m "说明本次变更"
@@ -46,7 +53,7 @@ pnpm check:live
 node scripts/check-site.mjs --url https://shawnyoung-ysh.github.io/MeituanDemo-YSH.github.io/ --require-demo
 ```
 
-自动检查覆盖公开访问、HTML 声明、固定网址和静态资源；不替代业务操作、浏览器视觉或手机网络验收。检查报告生成于本地 `artifacts/`，不上传仓库。
+本地检查覆盖 HTML、静态资源、Mock 一致性、浏览器模块语法和自动化测试。`check:live` 仅检查线上基础访问与资源；自动化测试不替代浏览器视觉或手机网络验收。检查报告生成于本地 `artifacts/`，不上传仓库。
 
 ## 回退
 
@@ -54,6 +61,7 @@ node scripts/check-site.mjs --url https://shawnyoung-ysh.github.io/MeituanDemo-Y
 
 ## 项目记录
 
+- [后续每次对话的开发任务](docs/SESSION_PLAN.md)（从 task 1-3 开始，共 10 轮）
 - [开发交接方案与排期](docs/DEVELOPMENT_PLAN.md)
 - [Android / iOS 验收清单](docs/MOBILE_ACCEPTANCE.md)
 - [Mock 数据接入说明](docs/MOCK_DATA.md)与[种子数据](mock/db.json)

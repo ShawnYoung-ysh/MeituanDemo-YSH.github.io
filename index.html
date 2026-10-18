@@ -2,13 +2,36 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="description" content="校园跑腿互助平台：虚构数据、本机记录的校园互助演示。">
   <title>校园跑腿互助平台</title>
+  <link rel="stylesheet" href="./assets/css/tokens.css">
+  <link rel="stylesheet" href="./assets/css/app.css">
+  <link rel="stylesheet" href="./assets/css/mobile.css">
+  <script type="module" src="./assets/js/app.js"></script>
 </head>
 <body>
-  <h1>校园跑腿互助平台</h1>
-  <p>让校园里的每一次顺路，都成为一次互助。</p>
-  <p>任务发布 · 接单跑腿 · 信用评价</p>
-  <p>产品正在建设中，后续将在此地址持续更新。</p>
+  <a class="skip-link" href="#main-content">跳转到主要内容</a>
+  <div id="app" class="shell">
+    <header class="header">
+      <a class="brand" href="#/hall">校园跑腿互助平台</a>
+      <div class="header-meta">
+        <span class="demo-badge">演示模式</span>
+        <span id="active-identity">正在准备演示身份…</span>
+        <span class="muted">完整流程预览 v0.5.0</span>
+      </div>
+    </header>
+    <div id="session-banner"></div>
+    <div id="intro"></div>
+    <p id="feedback" class="feedback" role="status" aria-live="polite" hidden></p>
+    <main id="main-content" tabindex="-1"><p class="loading" role="status">正在加载本机演示记录…</p></main>
+    <noscript><p class="notice">此演示需要 JavaScript。请在浏览器设置中启用后重新加载。</p></noscript>
+    <nav class="bottom-nav" aria-label="主导航">
+      <a href="#/hall" data-page="hall">任务大厅</a>
+      <a href="#/publish" data-page="publish">发布</a>
+      <a href="#/tasks" data-page="tasks">我的任务</a>
+      <a href="#/me" data-page="me">我的</a>
+    </nav>
+  </div>
 </body>
 </html>

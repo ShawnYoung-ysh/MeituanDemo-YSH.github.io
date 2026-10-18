@@ -1,0 +1,23 @@
+:root {
+  color-scheme: light;
+  --ink: #19332d;
+  --muted: #566d65;
+  --accent: #17664c;
+  --accent-soft: #eaf2e6;
+  --surface: #fff;
+  --line: #dce5df;
+  --background: #f4f7f2;
+  --warning: #825000;
+  --warning-soft: #fff0c4;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --radius-card: 20px;
+  --content-width: 720px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+  color: var(--ink);
+  background: var(--background);
+}
