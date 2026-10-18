@@ -13,16 +13,20 @@
 | 本地静态检查 | 通过 | pnpm check；两份 JavaScript 脚本语法检查；git diff --check |
 | 本地预览与子路径 | 通过 | 项目路径 HTTP 200；根路径重定向；缺失文件、隐藏文件及越界请求返回 404 |
 | 本地上传身份验证 | 通过 | Git Credential Manager 登录成功；git push --dry-run 通过 |
-| 本轮版本上传及自动发布 | 待最终核对 | 完成提交后推送，并记录新的 Pages 发布结果 |
+| 本轮版本上传及自动发布 | 通过 | ef3b0c6 已推送；Pages 运行 39127279546 成功，2026-10-18 20:26（北京时间） |
 | Edge 登录和仓库权限 | 通过 | 扩展连接恢复；设置页确认 main 根目录发布、HTTPS 强制启用 |
 | 电脑和手机布局 | 占位首页通过 | 1366×900 与 390×844 均无横向溢出；文字完整；浏览器未捕获控制台错误 |
 | 手机移动网络访问 | 待用户实测 | 当前工具不能代表手机运营商网络 |
 | 发布、接单、完成、信用闭环 | 待开发 | 业务 Demo 尚未实现 |
 | 考试平台正式提交 | 待确认 | 等待提交入口或成功回执 |
 
+发布记录：<https://github.com/ShawnYoung-ysh/MeituanDemo-YSH.github.io/actions/runs/39127279546>。
+
 本地验收证据（不上传仓库）：`artifacts/check-local.json`、`artifacts/check-preview.json`、`artifacts/check-live.json`、`artifacts/desktop-home.jpg`、`artifacts/mobile-home.jpg`。
 
 业务页面实现后必须重新进行功能和视觉验收。本轮仅证明当前页面可展示及基础开发发布流程可用。
+
+当前操作限制：完成上述浏览器验收后，工具报告 Work 设置已关闭本地浏览器使用；考试平台入口也尚未提供，因此本轮尚未执行考试平台正式提交。
 
 ## Demo 完成后的人工验收
 
