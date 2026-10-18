@@ -1,0 +1,13 @@
+{
+  "name": "campus-errand-demo",
+  "version": "0.0.1",
+  "private": true,
+  "description": "校园跑腿互助平台演示项目",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "check": "node scripts/check-site.mjs",
+    "check:live": "node scripts/check-site.mjs --url https://shawnyoung-ysh.github.io/MeituanDemo-YSH.github.io/"
+  },
+  "engines": { "node": ">=22" }
+}
