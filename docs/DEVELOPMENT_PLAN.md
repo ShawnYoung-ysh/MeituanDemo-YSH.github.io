@@ -2,7 +2,7 @@
 
 版本：1.0｜日期：2026-10-18（北京时间）｜对应任务：task 1-2
 
-本文件是后续开发的执行基线，不代表功能已经实现。当前线上仍为占位首页，开发预览、Git 上传、GitHub Pages 自动发布流程已验证。
+本文件是 2026-10-18 制定的开发基线，不代表当时功能已经实现。实施进度见 SESSION_PLAN.md，实际版本与部署结果见 ACCEPTANCE.md；2026-10-19 已交付 v0.5.0 M1，真机发布门槛仍待验证。
 
 固定作品地址：<https://shawnyoung-ysh.github.io/MeituanDemo-YSH.github.io/>
 

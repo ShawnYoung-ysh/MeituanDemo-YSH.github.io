@@ -137,7 +137,7 @@ task 1-7 / task 1-8 合并补充：
 | switchDemoUser | userId | 切换演示身份，保持任务数据 |
 | resetDemo | confirmed=true | 重置当前项目快照 |
 
-错误码至少覆盖 `VALIDATION_ERROR / SELF_ACCEPT / LOW_CREDIT / TASK_EXPIRED / INVALID_STATE / FORBIDDEN / REVISION_CONFLICT / STORAGE_UNAVAILABLE / SEED_LOAD_FAILED / NOT_FOUND`。
+错误码至少覆盖 `VALIDATION_ERROR / SELF_ACCEPT / LOW_CREDIT / TASK_EXPIRED / INVALID_STATE / FORBIDDEN / REVISION_CONFLICT / ALREADY_REVIEWED / EXTERNAL_CHANGE / CONFIRMATION_REQUIRED / STORAGE_UNAVAILABLE / SEED_LOAD_FAILED / NOT_FOUND`。
 
 同一 requestId 的重试返回原操作结果，不能重复应用事件；任务 revision 每次状态变更递增。completed 状态与唯一信用事件在一个快照操作中写入。生产后端不能信任前端 actorId，必须从已验证会话取得身份。
 

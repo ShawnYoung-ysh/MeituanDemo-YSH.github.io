@@ -23,7 +23,15 @@
 
 ### M1 发布记录
 
-本地功能与桌面验证完成；提交、推送及部署核验执行后在此补记实际结果。尚未完成真机发布门槛，不宣称 M2/M3 或考试平台提交成功。
+- 业务提交：`2f1fd046e39277be669252446f14971c1d799e24`（v0.5.0）。含前几轮尚未提交的业务实现与本轮合并功能，已上传 origin/main。
+- [GitHub Pages 部署 39154093867](https://github.com/ShawnYoung-ysh/MeituanDemo-YSH.github.io/actions/runs/39154093867)：completed / success，部署提交与上述业务提交一致。
+- 正式地址：<https://shawnyoung-ysh.github.io/MeituanDemo-YSH.github.io/>；无登录 HTTP 200，基础访问/子路径资源和 `--require-demo` 检查通过。
+- 线上 28 个 HTML/CSS/JS/种子文件逐一与提交中的文件校验 SHA-256，一致。首次比较本地工作文件时 index.html 因 CRLF/LF 差异不一致，改与 Git 提交原文比较后通过，未发现线上业务文件偏差。
+- 线上浏览器实际显示 v0.5.0；首次说明、我的任务/已完成筛选、t008 双方已有评价（2 条、当前身份无表单）、详情刷新和个人信用明细通过，error/warn 为空。本地新增任务及互评全过程见上表，未伪称线上重复全量回归。
+- 发布脚本被 Windows PowerShell 本机签名策略拒绝执行，随后使用已通过的完整检查、干净工作区/分支/固定远程校验和标准 `git push --dry-run` / `git push` 完成发布，未改变执行策略。
+- 证据：本轮目录的 publish*.txt、check-live.txt、check-deployed-files.txt、deployed-files.json、live-profile-390.png；交接文档随后单独提交归档。
+
+M1 可操作版已上线，并包含本轮合并完成的评价与信用明细。Android/iPhone 真机与完整异常矩阵仍待验证，不宣称 M2/M3 或考试平台提交成功。
 
 ## 2026-10-19 · task 1-6 状态流转与信用入账
 
