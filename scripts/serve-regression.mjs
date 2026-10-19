@@ -79,7 +79,7 @@ const server = http.createServer(async (req, res) => {
             Date.now = () => originalNow() + (document.querySelector('.publish-form[aria-busy="true"]') ? 25*3600000 : 0);
           }
           document.addEventListener('DOMContentLoaded', () => {
-            const label = document.createElement('p'); label.textContent = '独立故障预检：' + scenario + '（不是手机真机）';
+            const label = document.createElement('p'); label.textContent = '独立故障预检：' + scenario + '（隔离环境，非正式站点）';
             label.className = 'notice'; label.dataset.qaScenario = scenario; document.body.prepend(label);
           });
         })();

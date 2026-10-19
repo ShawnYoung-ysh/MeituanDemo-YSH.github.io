@@ -6,7 +6,7 @@ https://shawnyoung-ysh.github.io/MeituanDemo-YSH.github.io/
 
 提交时仅填写上述网址，不填写 GitHub 仓库地址或 localhost 地址。
 
-当前状态（2026-10-19）：原网址已更新为 v0.5.0 M1 可操作演示，业务提交 2f1fd04，Pages 部署 39154093867 成功，公开访问与线上基础页面已核验。任务管理、信用明细与双方评价均可体验；Android/iPhone 真机与完整发布门槛仍待验证，详见 ACCEPTANCE.md。
+当前状态（2026-10-19）：原网址已更新为v0.6.0功能冻结预览，业务提交c2eb1c5，Pages部署39156054992成功，28个业务文件与提交一致。94项测试及桌面异常回归通过；Redmi K20 Pro / Android 10 / Chrome 152 真机已跑通发布至双方评价，信用唯一入账 80→82，键盘、旋转、系统返回和断网后操作已有截图。iPhone 无设备、Android 无 SIM，部分扩展条件待补，完整手机发布门槛仍未满足；详见 ACCEPTANCE.md 与 MOBILE_TEST_REPORT.md。
 
 尚未在考试平台执行正式提交，也没有成功回执；提交页面尚未提供。网站部署成功不等于考试平台提交成功。
 

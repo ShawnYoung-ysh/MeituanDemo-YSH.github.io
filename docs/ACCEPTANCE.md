@@ -1,6 +1,6 @@
 # 阶段验收记录
 
-## 2026-10-19 · task 1-9 异常回归完成 / task 1-10 真机未执行
+## 2026-10-19 · task 1-9 异常回归完成 / task 1-10 Android 核心实测
 
 版本：v0.6.0 功能冻结预览；基线aa1e5fe。用户本轮task 1-6合并两个工作包，不能将异常回归通过等同两端真机通过。
 
@@ -14,14 +14,17 @@
 | 输入、空结果和重复评价 | 自动化及桌面通过 | 搜索无结果可清空恢复4条；script评论按文本显示、无脚本节点，双击不重复评；截止二次校验错误保留输入并定位 |
 | 响应式恢复页与体积 | 桌面/静态通过 | 八档宽度及844×390，按钮≥48px；28文件原文145067字节、gzip估算49923字节、种子16675字节；真实4G耗时未测 |
 | 自动化与基础检查 | 通过 | 共94项（原89+新增5），23模块语法、静态/Mock/体积/预览检查通过 |
-| Android / iPhone 真机 | 未执行 | adb设备列表为空，无已连接手机或iPhone/云真机入口；已询问实测条件，尚未取得结果 |
-| 200%缩放、真实键盘/安全区/手势、蜂窝网络 | 未验证 | 内置浏览器快捷键未产生可核验缩放变化；不能以窄视口或桌面注入替代这些项目 |
+| Android 核心真机流程 | 实测通过 | Redmi K20 Pro / Android 10 / Chrome 152，正式 v0.6.0 页面发布→u002接单→开始/交付→u001确认→双向互评，唯一 +2，80→82；信用/评价/刷新及低信用/自接/过期/取消/退出/异议均有截图 |
+| Android 键盘、旋转与系统返回 | 实测通过 | 最后字段真实键盘下可滚动至提交，错误定位后保留输入；五页横竖屏、底部手势条与评价末条可见；系统返回后草稿保留 |
+| Android 200%显示与断网 | 部分通过 | 实际调至200%并恢复100%，放大完整流程未覆盖；关闭Wi-Fi且无SIM时仍可筛选/接单，联网刷新保留；首次慢网/离线未测 |
+| Android 隔离故障与延迟加载 | 真机通过 | USB转发至独立回环服务，503重试、损坏记录确认重置、存储禁用提示及约1.8秒种子延迟均有真实屏幕证据；测试后撤销转发、停止服务，正式记录不受影响 |
+| 其余手机条件与 iPhone | 待补测 | 放大完整流程、部分非法表单、关页重开、真实弱网/首次离线、蜂窝与4G耗时待补；无SIM、无iPhone，不能认定全部门槛通过 |
 
 证据：artifacts/task-1-9-1-10/，含fault-proof.json、state-matrix.json、routes-input-proof.json、slow-seed-proof.json、initialization-race.json、offline-data-proof.json、error-layouts.json、截图与最终检查日志。故障注入预期会产生网络错误日志，不能将其混记为普通页面错误。
 
-详细缺陷与复测见 REGRESSION_REPORT.md；两端M01–M20及设备字段见 MOBILE_TEST_REPORT.md，当前均保留未执行。P0功能冻结后仅修复严重/兼容性问题；M2/M3与完整手机发布门槛仍未完成。
+详细缺陷与复测见 REGRESSION_REPORT.md；MOBILE_TEST_REPORT.md 已回填 Android M01–M20 结果、操作和证据索引，iPhone 全部未执行。真机截图与 XML 在本轮 android/，包含 completed、keyboard-submit、credit-event、both-reviews、draft-returned、offline-accepted 等；本轮未发现新业务缺陷。P0冻结后仅修复严重/兼容性问题；M2/M3与完整手机发布门槛仍未完成。
 
-本轮提交与部署：待最终检查后补记实际结果，不预填上线成功。
+本轮业务提交：`c2eb1c5ce55a716472cd6fc0e886acf0e8e9a91d`，已上传main。[Pages部署39156054992](https://github.com/ShawnYoung-ysh/MeituanDemo-YSH.github.io/actions/runs/39156054992) completed/success。正式地址HTTP200，28个业务文件与提交原文SHA-256一致，桌面线上显示v0.6.0且普通页面error/warn为空；已有v0.5.0快照在本地升级后保留身份与记录。该部署不代表手机验收通过，Android设备与操作状态按MOBILE_TEST_REPORT.md更新。
 
 ## 2026-10-19 · task 1-7 / task 1-8 合并验收
 
