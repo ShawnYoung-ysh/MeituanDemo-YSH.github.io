@@ -1,5 +1,22 @@
 # 阶段验收记录
 
+## 2026-10-19 · 用户 task 1-7 / 排期 task 1-11–1-12 候选交付
+
+版本：v0.7.0-rc.1；基线 dc37b77。候选包已准备，完整手机发布门槛待完成；不宣布 M2/M3 或考试平台正式提交成功。
+
+| 检查项 | 结果与范围 |
+| --- | --- |
+| 缺陷复核和功能冻结 | 本轮无新阻塞/严重业务缺陷；仅版本标识、演示/交付文档和归档工具变更，业务 JS/CSS、种子/schema 不变 |
+| 干净站点记录 / 旧记录升级 | localhost 首次说明和初始样例可用；已有 127.0.0.1 站点刷新为候选版仍保留阿晴身份；未创建全新浏览器配置文件 |
+| 演示主流程 | 工具走查 131 秒：u001新发布，u002接单/开始/交付，u001从我的任务确认，双方5/4星互评；确认前80、确认后82、互评不加分，任务信用明细仅一条+2 |
+| 刷新、重开、历史返回 | 新任务完成及两条评价保留，五条状态时间线，无重复评价表单；桌面结果不替代 Android M12 |
+| 检查与文案 | 94/94测试、23模块语法、静态/Mock/体积检查通过；控制台error/warn为空；未发现占位或真实认证/支付/跨设备同步暗示 |
+| 演示和交付材料 | DEMO_WALKTHROUGH.md、RELEASE_REPORT.md、DELIVERY.md已完成；打包仅取已提交HEAD，未提交工作区拦截实测通过 |
+| 手机验收范围 | 承接v0.6.0 Android核心实测；iPhone/蜂窝及M05/M07/M12/M16剩余条件仍待验证，详见MOBILE_TEST_REPORT.md |
+| 公开发布 / ZIP归档 | 本地准备完成后执行；提交号、Pages结果、线上哈希与ZIP独立校验仅据实际结果回填，不预填通过 |
+
+本地证据：artifacts/task-1-11-1-12/，含 checks.txt、walk-timing.json、candidate-credit.txt、candidate-both-reviews.txt/png、candidate-refresh.txt、candidate-reopen.txt、candidate-history-back.txt、candidate-console.json、archive-dirty-guard.txt。正式业务网页不加载测试辅助脚本。
+
 ## 2026-10-19 · task 1-9 异常回归完成 / task 1-10 Android 核心实测
 
 版本：v0.6.0 功能冻结预览；基线aa1e5fe。用户本轮task 1-6合并两个工作包，不能将异常回归通过等同两端真机通过。

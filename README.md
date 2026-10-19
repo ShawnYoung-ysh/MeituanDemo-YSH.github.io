@@ -2,7 +2,7 @@
 
 固定作品网址：<https://shawnyoung-ysh.github.io/MeituanDemo-YSH.github.io/>
 
-当前版本：v0.6.0 功能冻结预览。任务大厅、发布、详情、七种状态操作、我的任务、个人资料、信用明细与双方评价已实现。同一浏览器可通过页面入口跑通“发布→切换身份接单→交付→发布者确认→双方评价”；确认完成向跑腿者唯一入账 +2，信用封顶 100，评价不额外加分。当前没有真实账号、支付或多人共享数据库。
+当前候选版本：v0.7.0-rc.1，线上实际部署见验收记录。任务大厅、发布、详情、七种状态操作、我的任务、个人资料、信用明细与双方评价已实现。同一浏览器可通过页面入口跑通“发布→切换身份接单→交付→发布者确认→双方评价”；确认完成向跑腿者唯一入账 +2，信用封顶 100，评价不额外加分。当前没有真实账号、支付或多人共享数据库。
 
 M1 可操作版已于 2026-10-19 更新到原作品网址，业务提交 `2f1fd04`、Pages 部署成功并完成线上文件与基础页面核验；后续真机与完整异常验收仍按计划进行。
 
@@ -12,7 +12,9 @@ Mock 数据已接入；普通刷新恢复已有快照，不重新移动截止时
 
 异常回归及可执行修复已完成：94项自动化测试，补齐首次下载竞态保护、临时页面重试与统一外部变更提示。未提交发布输入按身份在本次会话内保留；损坏记录可恢复，存储失败明确提示临时会话，不保证跨标签抢单事务。Android 已实测真实键盘、横竖屏、系统返回、断网后操作及 200% 显示；放大下完整流程、部分表单/恢复条件、关页重开、慢网、蜂窝与 iPhone 仍待补测。
 
-实际部署见 [验收记录](docs/ACCEPTANCE.md)，异常结果见 [回归报告](docs/REGRESSION_REPORT.md)，Android 逐项结果及剩余条件见 [真机记录表](docs/MOBILE_TEST_REPORT.md)。可准备下一轮演示材料，同时保留待测项；冻结后只修兼容性及严重缺陷。
+候选版 [三分钟演示脚本](docs/DEMO_WALKTHROUGH.md) 已完成，桌面工具走查 131 秒跑通发布至双方互评，刷新/关闭重开保留结果；不含旁白与准备。94项测试通过，无新业务缺陷；本轮不改变业务 JS/CSS/种子。
+
+实际部署见 [验收记录](docs/ACCEPTANCE.md)，状态与限制见 [版本报告](docs/RELEASE_REPORT.md)，打包和运行见 [交付说明](docs/DELIVERY.md)，Android 原始结果见 [真机记录表](docs/MOBILE_TEST_REPORT.md)。候选包已准备，完整手机发布门槛待完成，不宣称 M2/M3 通过；冻结后只修兼容性及严重缺陷。
 
 ## 开发与发布约定
 
@@ -64,6 +66,8 @@ node scripts/check-site.mjs --url https://shawnyoung-ysh.github.io/MeituanDemo-Y
 
 独立故障预检运行 `node scripts/serve-regression.mjs`（4174端口，仅回环地址）；场景和独立记录方式见回归报告。普通预览不加载故障脚本。静态体积检查的gzip为本地估算，不代表实际移动网络速度。
 
+干净 Git 工作区执行 `pnpm archive:release`，生成同一提交的源码 ZIP、静态网站 ZIP、release.json 与 SHA256SUMS.txt，保存至 artifacts/releases/。工具拒绝覆盖既有目录；生成清单不等于完成手机验收，详见交付说明。
+
 ## 回退
 
 通过 `git log --oneline` 确认要撤销的版本，使用 `git revert <提交号>` 创建撤销提交，再按相同流程推送。避免强制推送、删除仓库或更换网址。
@@ -75,5 +79,8 @@ node scripts/check-site.mjs --url https://shawnyoung-ysh.github.io/MeituanDemo-Y
 - [Android / iOS 验收清单](docs/MOBILE_ACCEPTANCE.md)
 - [Mock 数据接入说明](docs/MOCK_DATA.md)与[种子数据](mock/db.json)
 - [阶段验收与待办](docs/ACCEPTANCE.md)
+- [三分钟演示脚本](docs/DEMO_WALKTHROUGH.md)
+- [候选版本报告与已知限制](docs/RELEASE_REPORT.md)
+- [交付、运行与归档](docs/DELIVERY.md)
 - [变更记录](CHANGELOG.md)
 - [提交信息](docs/SUBMISSION.md)
