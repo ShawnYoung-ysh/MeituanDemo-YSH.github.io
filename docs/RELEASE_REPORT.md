@@ -17,7 +17,10 @@
 | 自动化与静态检查 | 94/94 测试、23 个浏览器模块语法、静态/Mock/体积检查通过；原始日志在本轮 artifacts |
 | 归档保护 | 新增 archive:release，仅打包干净工作区的 Git HEAD；版本不一致或缺少交付文档时停止，已有归档目录不覆盖；未提交工作区拦截已实测 |
 | Android 证据承接 | v0.6.0 在 Redmi K20 Pro / Android 10 / Chrome 152 已完成核心流程与隔离故障恢复；本轮业务 JS/CSS/种子未改变。此项不等于 v0.7.0-rc.1 全表重测 |
-| 公开部署及归档回执 | 提交后核对 Pages 运行、公开版本/子路径/文件哈希与页面；实际回执记录在 ACCEPTANCE.md 和本轮本地 deployment.json、release.json，不能仅凭打包判定发布成功 |
+| 公开部署 | cb9e73c，Pages 39189140691 completed/success；未带登录凭据HTTP200，28个业务文件与提交SHA-256一致，实际网页显示候选版本 |
+| 线上主流程 | 新发布“候选发布复核：顺路取件”，u002接单/开始/交付，u001确认80→82，双方5/4星互评；刷新后保留，控制台error/warn为空；旧快照身份、信用和02:26样例时间保留 |
+| 首轮归档验证 | 候选提交源码60文件、网站29文件，独立.NET解压读取并逐文件核对SHA-256通过；源码包解压后通过自身服务器启动并显示候选版本/首次说明/4条任务；已有目录拦截且旧清单未改动 |
+| 最终交付回执 | 后续交接提交仅改文档；最终归档版本/提交、ZIP字节数和校验结果以本轮本地release.json及archive-verification.json为准，不以业务提交号代替归档提交号 |
 
 ## 已知限制与待办
 
@@ -41,3 +44,5 @@ L01–L04 属于发布门槛未完成的验证条件，不是已复现的产品�
 发布后必须确认对应提交的 Pages completed/success、HTTP 200、页面版本、模块/种子相对路径和线上文件 SHA-256。归档提交号以 release.json.commit 为准；仅更新文档的后续提交与业务候选提交分别记录。
 
 回退使用 git revert 创建撤销提交，重新检查后推送 main；不重写远程历史。v0.6.0 最近已验证交接提交为 dc37b77，保留其记录便于比较；回退网页不会自动清空浏览器里的合法 v1 快照。
+
+候选业务提交：cb9e73c09ee3b7e060391c0a9d7d7cc333557cf8；[Pages部署39189140691](https://github.com/ShawnYoung-ysh/MeituanDemo-YSH.github.io/actions/runs/39189140691)。本轮线上证据包括 live-before-upgrade.txt、live-after-upgrade.txt、live-completed.txt/png、live-credit.txt、live-both-reviews.txt/png、live-refresh.txt、live-console.json、deployed-files.json；首轮ZIP验证及解压启动另存 archive-verification-candidate.json、extracted-source-smoke.txt/png。证据保留在 artifacts/task-1-11-1-12/，不上传私人浏览器记录。

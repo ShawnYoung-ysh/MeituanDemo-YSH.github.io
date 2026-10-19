@@ -13,9 +13,13 @@
 | 检查与文案 | 94/94测试、23模块语法、静态/Mock/体积检查通过；控制台error/warn为空；未发现占位或真实认证/支付/跨设备同步暗示 |
 | 演示和交付材料 | DEMO_WALKTHROUGH.md、RELEASE_REPORT.md、DELIVERY.md已完成；打包仅取已提交HEAD，未提交工作区拦截实测通过 |
 | 手机验收范围 | 承接v0.6.0 Android核心实测；iPhone/蜂窝及M05/M07/M12/M16剩余条件仍待验证，详见MOBILE_TEST_REPORT.md |
-| 公开发布 / ZIP归档 | 本地准备完成后执行；提交号、Pages结果、线上哈希与ZIP独立校验仅据实际结果回填，不预填通过 |
+| 公开候选发布 | cb9e73c09ee3b7e060391c0a9d7d7cc333557cf8已推送；[Pages39189140691](https://github.com/ShawnYoung-ysh/MeituanDemo-YSH.github.io/actions/runs/39189140691) completed/success；HTTP200、28业务文件与提交SHA-256一致、实际版本正确 |
+| 线上业务复核 | 新发布“候选发布复核：顺路取件”并跑通接单至双向互评，唯一80→82；刷新保留，控制台error/warn为空；升级前后身份、信用和旧样例时间02:26不变 |
+| ZIP归档验证 | 首轮候选源码60文件、网站29文件，独立.NET逐文件解压/哈希均通过；源码包解压后可启动并显示版本/首次说明/4条样例；重复生成拒绝覆盖旧目录，旧release.json未改动 |
 
 本地证据：artifacts/task-1-11-1-12/，含 checks.txt、walk-timing.json、candidate-credit.txt、candidate-both-reviews.txt/png、candidate-refresh.txt、candidate-reopen.txt、candidate-history-back.txt、candidate-console.json、archive-dirty-guard.txt。正式业务网页不加载测试辅助脚本。
+
+发布回执：deployment-candidate.json、deployed-files.json、check-live.txt、live-*.txt/png、live-console.json；归档验证：archive-verification-candidate.json、archive-collision-guard.txt、extracted-source-smoke.txt/png。后续仅文档的交接提交和最终归档提交以实际Git历史及 artifacts/releases/ 内 release.json 为准；最终ZIP校验另存 archive-verification.json。M2/M3仍待手机门槛，未记录考试提交成功。
 
 ## 2026-10-19 · task 1-9 异常回归完成 / task 1-10 Android 核心实测
 

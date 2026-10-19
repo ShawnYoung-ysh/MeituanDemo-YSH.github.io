@@ -6,7 +6,7 @@ https://shawnyoung-ysh.github.io/MeituanDemo-YSH.github.io/
 
 提交时仅填写上述网址，不填写 GitHub 仓库地址或 localhost 地址。
 
-当前状态（2026-10-19）：v0.7.0-rc.1 候选材料已准备；演示脚本、交付说明与源码/静态网站归档工具已完成，94项测试通过，桌面工具走查131秒跑通发布至双方评价。实际公开版本及部署回执见 ACCEPTANCE.md。v0.6.0 的 Redmi K20 Pro / Android 10 / Chrome 152 核心真机结果仍保留；iPhone无设备、Android无SIM、部分条件待补，完整手机发布门槛及M2/M3仍未满足，详见 RELEASE_REPORT.md 与 MOBILE_TEST_REPORT.md。
+当前状态（2026-10-19）：原网址已部署v0.7.0-rc.1候选预览，候选提交cb9e73c、Pages39189140691成功，28业务文件与提交一致；演示脚本、交付说明和归档工具已完成。94项测试通过，桌面工具走查131秒完成主流程，正式网页也已从新发布跑至双方评价，确认80→82且刷新保留。源码/网站包首轮独立校验及解压启动通过；最终归档提交见release.json。v0.6.0的Android核心真机结果保留；iPhone、蜂窝及部分条件待补，完整手机门槛及M2/M3仍未满足，详见RELEASE_REPORT.md与MOBILE_TEST_REPORT.md。
 
 尚未在考试平台执行正式提交，也没有成功回执；提交页面尚未提供。网站部署成功不等于考试平台提交成功。
 
