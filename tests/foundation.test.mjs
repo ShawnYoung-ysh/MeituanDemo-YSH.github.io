@@ -64,6 +64,16 @@ test('refresh restores identity, task changes, intro choice and anchor even when
   assert.equal(refreshed.getWrites(), 1, 'reading an overdue open task persists expiry once');
 });
 
+test('intro acknowledgement survives identity changes, sample reset and browser restore', async () => {
+  const f = setup();
+  await f.service.initialize();
+  await f.service.acknowledgeIntro();
+  assert.equal((await f.service.switchDemoUser('u002')).data.introAcknowledged, true);
+  assert.equal((await f.service.resetDemo(true)).data.introAcknowledged, true);
+  const restored = setup({ initial: f.values.get(STORAGE_KEY), seedFails: true });
+  assert.equal((await restored.service.initialize()).data.introAcknowledged, true);
+});
+
 test('compatible dataset changes preserve the stored session; absent optional preferences are supported', async () => {
   const snapshot = initializeSnapshot(seed, anchor);
   snapshot.datasetVersion = snapshot.db.meta.datasetVersion = 'older-compatible-dataset';

@@ -117,7 +117,10 @@ export function createMockRepository({ getStorage = () => globalThis.localStorag
         catch { mode = 'memory'; }
       }
       // Prepare first, then replace this key only. Failed downloads preserve old data.
-      return save(await freshSnapshot());
+      const next = await freshSnapshot();
+      // Reset business samples without asking an acknowledged visitor to start again.
+      next.preferences.introAcknowledged = snapshot?.preferences.introAcknowledged ?? false;
+      return save(next);
     }),
   };
 }

@@ -18,6 +18,30 @@ const banner = document.querySelector('#session-banner');
 const intro = document.querySelector('#intro');
 const feedback = document.querySelector('#feedback');
 const identity = document.querySelector('#active-identity');
+const header = document.querySelector('.header');
+const navigation = document.querySelector('.bottom-nav');
+// Measure both fixed bars so wrapped text, zoom and safe areas never cover content.
+function updateShellInsets() {
+  document.documentElement.style.setProperty('--header-height', `${header.getBoundingClientRect().height}px`);
+  document.documentElement.style.setProperty('--bottom-nav-height', `${navigation.getBoundingClientRect().height}px`);
+}
+const shellObserver = new ResizeObserver(updateShellInsets);
+shellObserver.observe(header);
+shellObserver.observe(navigation);
+updateShellInsets();
+document.querySelector('#intro-confirm').addEventListener('click', () => {
+  document.querySelector('#intro-error').hidden = true;
+  void perform(() => service.acknowledgeIntro(), '已了解演示说明。');
+});
+function closeIntro() {
+  if (intro.open) intro.close();
+}
+function syncIntro(session) {
+  document.querySelector('#intro-storage-warning').hidden = session.persistence.mode !== 'memory';
+  if (session.introAcknowledged) {
+    if (intro.open) { closeIntro(); main.focus({ preventScroll: true }); }
+  } else if (!intro.open) intro.showModal();
+}
 let ready = false;
 let busy = false;
 let renderVersion = 0;
@@ -39,8 +63,9 @@ function rememberScroll() {
 function showExternalChange() {
   if (externalChange) return;
   externalChange = true;
+  closeIntro();
   repository.invalidate(); ready = false; pageController?.abort(); ++renderVersion;
-  main.inert = true; intro.inert = true;
+  main.inert = true; identity.inert = true;
   document.querySelector('.bottom-nav').inert = true;
   banner.replaceChildren(el('section', { class: 'notice', role: 'alert' },
     el('p', {}, '其他标签页已更新本机演示记录。请刷新此页后继续，未提交输入可能丢失。'),
@@ -96,6 +121,7 @@ function setBusy(value) {
   busy = value;
   document.querySelector('#app').setAttribute('aria-busy', String(value));
   for (const control of document.querySelectorAll('#app button, #app select')) control.disabled = value;
+  if (!value && intro.open && document.activeElement === intro) document.querySelector('#intro-confirm').focus({ preventScroll: true });
 }
 
 function announce(message, error = false) {
@@ -110,8 +136,9 @@ function showFailure(error) {
   ready = false;
   lastError = error;
   banner.replaceChildren();
-  intro.replaceChildren();
-  identity.textContent = '演示尚未就绪';
+  closeIntro();
+  identity.firstElementChild.textContent = '同';
+  identity.setAttribute('aria-label', '身份尚未就绪，查看我的资料');
   const recoverable = ['SNAPSHOT_INVALID', 'SCHEMA_UNSUPPORTED'].includes(error.code);
   main.replaceChildren(el('section', { class: 'panel error-panel' },
     el('h1', { tabindex: '-1' }, '暂时无法进入演示'), el('p', {}, error.message),
@@ -139,14 +166,13 @@ async function render(focus = false) {
     myTasksState: getMyTasksState(session.activeUser.id), taskOrigin, onTaskOrigin: origin => { taskOrigin = origin; },
     onPersistence: persistence => { if (!controller.signal.aborted) showPersistence(persistence); } });
   if (version !== renderVersion) return;
-  identity.textContent = session.activeUser.nickname;
+  identity.firstElementChild.textContent = session.activeUser.avatarText;
+  identity.setAttribute('aria-label', `${session.activeUser.nickname}，查看我的资料`);
+  identity.title = `${session.activeUser.nickname} · 查看我的资料`;
+  if (route.name === 'me') identity.setAttribute('aria-current', 'page'); else identity.removeAttribute('aria-current');
   const currentSession = await service.getSession();
   if (version !== renderVersion) return;
   showPersistence(currentSession.ok ? currentSession.data.persistence : session.persistence);
-  intro.replaceChildren(...(!session.introAcknowledged ? [el('section', { class: 'intro-panel', 'aria-label': '首次演示说明' },
-    el('h2', {}, '欢迎体验校园互助'),
-    el('p', {}, '这里的学校、用户和任务都是虚构的，没有真实认证或支付。记录仅属于当前浏览器；存储可用时刷新后可以继续。'),
-    button('了解，开始体验', () => perform(() => service.acknowledgeIntro(), '已了解演示说明。'), 'button button-secondary'))] : []));
   main.replaceChildren(page);
   displayedRoute = route.name;
   displayedUserId = session.activeUser.id;
@@ -160,6 +186,7 @@ async function render(focus = false) {
     main.querySelector('h1')?.focus({ preventScroll: true });
     if (!['hall', 'tasks'].includes(route.name)) window.scrollTo(0, 0);
   }
+  syncIntro(currentSession.ok ? currentSession.data : session);
 }
 
 async function perform(operation, successMessage) {
@@ -168,7 +195,14 @@ async function perform(operation, successMessage) {
   try {
     const result = await operation();
     if (externalChange) return;
-    if (!result.ok) { announce(result.error.message, true); return; }
+    if (!result.ok) {
+      if (intro.open) {
+        const error = document.querySelector('#intro-error');
+        error.textContent = result.error.message;
+        error.hidden = false;
+      } else announce(result.error.message, true);
+      return;
+    }
     ready = true;
     lastError = null;
     await render();

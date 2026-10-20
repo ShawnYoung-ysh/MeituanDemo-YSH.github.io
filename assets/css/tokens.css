@@ -17,6 +17,8 @@
   --space-6: 24px;
   --radius-card: 20px;
   --content-width: 720px;
+  --header-height: calc(69px + env(safe-area-inset-top));
+  --bottom-nav-height: calc(65px + env(safe-area-inset-bottom));
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
   color: var(--ink);
   background: var(--background);

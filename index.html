@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
   <meta name="description" content="校园跑腿互助平台：虚构数据、本机记录的校园互助演示。">
+  <meta name="application-version" content="v0.7.0-rc.1">
   <title>校园跑腿互助平台</title>
   <link rel="stylesheet" href="./assets/css/tokens.css">
   <link rel="stylesheet" href="./assets/css/app.css">
@@ -15,14 +16,19 @@
   <div id="app" class="shell">
     <header class="header">
       <a class="brand" href="#/hall">校园跑腿互助平台</a>
-      <div class="header-meta">
-        <span class="demo-badge">演示模式</span>
-        <span id="active-identity">正在准备演示身份…</span>
-        <span class="muted">候选预览 v0.7.0-rc.1</span>
-      </div>
+      <a id="active-identity" class="identity-avatar" href="#/me" aria-label="正在准备身份，查看我的资料" title="查看我的资料">
+        <span aria-hidden="true">同</span>
+      </a>
     </header>
     <div id="session-banner"></div>
-    <div id="intro"></div>
+    <dialog id="intro" class="confirm-dialog intro-dialog" aria-labelledby="intro-title" aria-describedby="intro-description">
+      <span class="intro-symbol" aria-hidden="true">你好</span>
+      <h2 id="intro-title">欢迎体验校园互助</h2>
+      <p id="intro-description">这里的学校、用户和任务都是虚构的，没有真实认证或支付。记录仅属于当前浏览器；存储可用时刷新后可以继续。</p>
+      <p id="intro-storage-warning" class="field-hint" hidden>当前浏览器无法保存记录，本次确认仅在当前页面有效，重新打开可能再次显示。</p>
+      <p id="intro-error" class="feedback feedback-error" role="alert" hidden></p>
+      <button id="intro-confirm" class="button" type="button" autofocus>了解，开始体验</button>
+    </dialog>
     <p id="feedback" class="feedback" role="status" aria-live="polite" hidden></p>
     <main id="main-content" tabindex="-1"><p class="loading" role="status">正在加载本机演示记录…</p></main>
     <noscript><p class="notice">此演示需要 JavaScript。请在浏览器设置中启用后重新加载。</p></noscript>

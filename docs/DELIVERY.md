@@ -2,7 +2,7 @@
 
 版本：v0.7.0-rc.1。交付类型：响应式 H5 候选预览，不含 Android/iOS 原生安装包。固定入口：[校园跑腿互助平台](https://shawnyoung-ysh.github.io/MeituanDemo-YSH.github.io/)。
 
-业务演示、源码、静态网站与验收材料可交付；完整手机发布门槛尚未满足。状态与限制见 RELEASE_REPORT.md，演示方法见 DEMO_WALKTHROUGH.md，不能将归档成功等同 M2/M3 或考试平台提交成功。
+业务演示、源码、静态网站与验收材料可交付；完整手机发布门槛尚未满足。状态与限制见 RELEASE_REPORT.md，演示方法见 DEMO_WALKTHROUGH.md，归档成功不等同 M2/M3 通过。考试平台已由用户手动提交（2026-10-20 明确确认），后续不再跟进。
 
 ## 文件与用途
 
@@ -55,6 +55,6 @@ node scripts/archive-release.mjs
 ## 维护与下一步
 
 1. 保留当前候选提交、Pages 回执、release.json 和原始截图，后续有变更另建归档，不覆盖本轮。
-2. 补齐 iPhone、蜂窝及剩余 Android 验收；发现阻塞/严重问题再修复和针对性回归，不增加 P1。
-3. 手机门槛满足后，再确认 M2/M3；考试平台提交须单独取得真实回执。
+2. 手机待测条件保留记录：iPhone 无设备；Android 尚缺 M05 放大完整流程、M07 两类非法表单、M12 关页重开、M16 真实弱网/首次离线、M17 手机卡 4G/5G 访问及耗时。具体已测/未测范围见 MOBILE_TEST_REPORT.md；待测不代表已发现故障。
+3. 手机门槛满足后，再确认 M2/M3；考试平台提交事项已关闭，不再索取回执或安排平台操作。
 4. 如需回退，按 RELEASE_REPORT.md 使用 git revert，再核对线上版本与资源。回退不删除浏览器演示数据。
