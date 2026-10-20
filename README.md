@@ -1,6 +1,6 @@
 # 校园跑腿互助平台
 
-本地开发更新（2026-10-21，用户 task 2-1，尚未发布）：固定顶部标题与圆形身份入口，首次说明改为确认后不再弹出的弹窗；95 项测试通过。黄色强调色仅制定[方案](docs/COLOR_SCHEME.md)，仍保留绿色页面。以下线上版本与历史交付记录保持原状态。
+线上更新（2026-10-21，用户 task 2-2）：task 2-1 的固定页头、圆形身份入口与首次体验弹窗已发布，业务提交 `c770e9a`，[Pages 39476845126](https://github.com/ShawnYoung-ysh/MeituanDemo-YSH.github.io/actions/runs/39476845126) 成功，28 个业务文件 SHA-256 一致。95 项测试通过，旧身份、信用与评价刷新后保留；绿色配色与黄色[方案](docs/COLOR_SCHEME.md)均未修改，未应用黄色。以下候选版本与原交付归档为历史记录。
 
 固定作品网址：<https://shawnyoung-ysh.github.io/MeituanDemo-YSH.github.io/>
 
