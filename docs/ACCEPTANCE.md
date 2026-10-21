@@ -2,7 +2,9 @@
 
 ## 2026-10-22 · 用户 task 2-4：样例浮窗、顶部菜单与发布
 
-本轮包含此前尚未提交的 task 2-3 独立样例功能，用户已授权提交、推送、发布；以下先记录发布前验证，真实部署结果核验后补充。
+本轮包含此前尚未提交的 task 2-3 独立样例功能，已按用户授权提交、推送和发布。业务提交 a497fd14a41b444263956a1fb4a4a371bb044604；[Pages 39631341548](https://github.com/ShawnYoung-ysh/MeituanDemo-YSH.github.io/actions/runs/39631341548) 显示 Success，固定网址 HTTP 200，31 个业务文件 SHA-256 与提交一致。
+
+正式网页在 390×844 桌面视口核验：首次进入样例弹窗，确认后展示 12 个案例，头像不存在，主内容 select/统计区均为 0，顶部菜单选择已完成后显示 2 个案例且不再弹说明；无横向溢出，主绿 #17664C 保留。发布脚本 102 项测试、26 模块语法和静态/Mock/体积检查通过。证据见本轮 publish.txt、check-live.txt、published-files.json、live-state.json、live-intro-390.png、live-showcase-390.png、live-menu-390.png；控制台记录另存 live-console.json。核验后文档提交不修改业务文件，最终提交及其部署回执另存本地 deployment.json。
 
 | 检查项 | 结果 |
 | --- | --- |
