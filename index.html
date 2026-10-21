@@ -16,9 +16,10 @@
   <div id="app" class="shell">
     <header class="header">
       <a class="brand" href="#/hall">校园跑腿互助平台</a>
-      <a id="active-identity" class="identity-avatar" href="#/me" aria-label="正在准备身份，查看我的资料" title="查看我的资料">
-        <span aria-hidden="true">同</span>
-      </a>
+      <details class="showcase-menu">
+        <summary class="showcase-shortcut" aria-label="样例，按状态浏览">样例</summary>
+        <div class="showcase-menu-panel" role="group" aria-label="样例状态"></div>
+      </details>
     </header>
     <div id="session-banner"></div>
     <dialog id="intro" class="confirm-dialog intro-dialog" aria-labelledby="intro-title" aria-describedby="intro-description">
@@ -28,6 +29,11 @@
       <p id="intro-storage-warning" class="field-hint" hidden>当前浏览器无法保存记录，本次确认仅在当前页面有效，重新打开可能再次显示。</p>
       <p id="intro-error" class="feedback feedback-error" role="alert" hidden></p>
       <button id="intro-confirm" class="button" type="button" autofocus>了解，开始体验</button>
+    </dialog>
+    <dialog id="showcase-intro" class="confirm-dialog intro-dialog" aria-labelledby="showcase-intro-title" aria-describedby="showcase-intro-description">
+      <h2 id="showcase-intro-title">固定样例 · 仅供浏览</h2>
+      <p id="showcase-intro-description">这里的状态与时间均为固定案例，不随实际日期变化。不会读取、重置或改动你的体验记录。</p>
+      <button id="showcase-confirm" class="button" type="button" autofocus>了解，浏览样例</button>
     </dialog>
     <p id="feedback" class="feedback" role="status" aria-live="polite" hidden></p>
     <main id="main-content" tabindex="-1"><p class="loading" role="status">正在加载本机演示记录…</p></main>

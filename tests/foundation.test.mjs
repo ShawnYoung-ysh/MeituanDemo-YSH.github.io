@@ -221,8 +221,10 @@ test('seed fetching resolves under the document subpath and checks HTTP errors',
 
 test('routes handle direct detail URLs, unknown paths and malformed encoding', () => {
   for (const hash of ['', '#', '#/', '#/hall']) assert.deepEqual(resolveRoute(hash), { name: 'hall' });
-  for (const name of ['publish', 'tasks', 'me']) assert.deepEqual(resolveRoute(`#/${name}`), { name });
+  for (const name of ['publish', 'tasks', 'me', 'showcase']) assert.deepEqual(resolveRoute(`#/${name}`), { name });
   assert.deepEqual(resolveRoute('#/task/t001'), { name: 'task', taskId: 't001' });
+  assert.deepEqual(resolveRoute('#/showcase/t008'), { name: 'showcaseTask', taskId: 't008' });
+  for (const hash of ['#/showcase/', '#/showcase/a/b', '#/showcase/%E0%A4%A', '#/showcase/%3Cscript%3E']) assert.equal(resolveRoute(hash).name, 'notFound');
   for (const hash of ['#/missing', '#/task/', '#/task/%E0%A4%A', '#/task/a/b', '#/task/%3Cscript%3E', '#/task/__bad/id']) {
     assert.equal(resolveRoute(hash).name, 'notFound');
   }

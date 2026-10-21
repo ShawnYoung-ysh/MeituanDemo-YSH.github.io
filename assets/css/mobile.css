@@ -1,4 +1,6 @@
 @media (max-width: 359px) {
+  .header { gap: 8px; padding-inline: max(12px, env(safe-area-inset-left)) max(12px, env(safe-area-inset-right)); }
+  .brand { font-size: 18px; }
   .shell { padding-inline: max(12px, env(safe-area-inset-left)) max(12px, env(safe-area-inset-right)); }
   .panel, .hall-filters, .task-card-link { padding: 16px; }
   .details { grid-template-columns: 1fr; gap: 4px; }

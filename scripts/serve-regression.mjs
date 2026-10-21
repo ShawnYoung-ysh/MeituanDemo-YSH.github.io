@@ -8,7 +8,7 @@ import { initializeSnapshot } from '../assets/js/data/snapshot.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const base = '/MeituanDemo-YSH.github.io/';
-const cases = new Set(['normal', 'seed-retry', 'seed-invalid', 'seed-slow', 'reset-fails', 'storage-denied', 'storage-write-fails', 'storage-corrupt', 'schema-unsupported', 'deadline-race', 'initialization-race', 'offline-after-load']);
+const cases = new Set(['normal', 'seed-retry', 'seed-invalid', 'seed-slow', 'reset-fails', 'storage-denied', 'storage-write-fails', 'storage-corrupt', 'schema-unsupported', 'deadline-race', 'initialization-race', 'offline-after-load', 'showcase-isolation']);
 const attempts = new Map();
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json' };
 const server = http.createServer(async (req, res) => {
@@ -42,7 +42,7 @@ const server = http.createServer(async (req, res) => {
       const session = randomUUID();
       const run = url.searchParams.get('run') ?? 'default';
       if (!/^[a-zA-Z0-9_-]{1,40}$/.test(run)) return reply(400, 'Invalid regression run');
-      const otherSnapshot = initializeSnapshot(JSON.parse(await readFile(path.join(root, 'mock/db.json'), 'utf8')), Date.now());
+      const otherSnapshot = initializeSnapshot(JSON.parse(await readFile(path.join(root, 'mock/db.json'), 'utf8')), Date.now() - (scenario === 'showcase-isolation' ? 2 * 86400000 : 0));
       otherSnapshot.activeUserId = 'u002';
       const prelude = `<script>
         (() => {
@@ -61,6 +61,15 @@ const server = http.createServer(async (req, res) => {
           const nativeStorage = window.localStorage;
           const prefix = 'regression:' + scenario + ':' + ${JSON.stringify(run)} + ':';
           const key = 'campus-errand-demo:v1';
+          if (scenario === 'showcase-isolation' && nativeStorage.getItem(prefix + key) === null) {
+            nativeStorage.setItem(prefix + key, ${JSON.stringify(JSON.stringify(otherSnapshot)).replaceAll('<', '\\u003c')});
+          }
+          const baseline = nativeStorage.getItem(prefix + key);
+          let reads = 0, writes = 0;
+          function reportStorage() {
+            const label = document.querySelector('[data-qa-scenario]');
+            if (label && scenario === 'showcase-isolation') label.textContent = '隔离预检：体验记录读取 ' + reads + ' 次 / 写入 ' + writes + ' 次 / 原文' + (baseline === nativeStorage.getItem(prefix + key) ? '未变' : '已变');
+          }
           if (scenario === 'initialization-race' && nativeStorage.getItem(prefix + key) === null) {
             setTimeout(() => nativeStorage.setItem(prefix + key, ${JSON.stringify(JSON.stringify(otherSnapshot)).replaceAll('<', '\\u003c')}), 150);
           }
@@ -69,9 +78,10 @@ const server = http.createServer(async (req, res) => {
           }
           Object.defineProperty(window, 'localStorage', { configurable: true, get() {
             if (scenario === 'storage-denied') throw new DOMException('Injected storage denial', 'SecurityError');
-            return { getItem: name => nativeStorage.getItem(prefix + name), setItem: (name, value) => {
+            return { getItem: name => { reads++; reportStorage(); return nativeStorage.getItem(prefix + name); }, setItem: (name, value) => {
               if (scenario === 'storage-write-fails') throw new DOMException('Injected write failure', 'QuotaExceededError');
               nativeStorage.setItem(prefix + name, value);
+              writes++; reportStorage();
             } };
           } });
           if (scenario === 'deadline-race') {
@@ -81,6 +91,7 @@ const server = http.createServer(async (req, res) => {
           document.addEventListener('DOMContentLoaded', () => {
             const label = document.createElement('p'); label.textContent = '独立故障预检：' + scenario + '（隔离环境，非正式站点）';
             label.className = 'notice'; label.dataset.qaScenario = scenario; document.body.prepend(label);
+            reportStorage();
           });
         })();
       </script>`;

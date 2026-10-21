@@ -8,8 +8,14 @@ import { createPublishDraft, hasDraftContent } from './pages/publishPage.js';
 import { createMyTasksState } from './pages/myTasksPage.js';
 import { STORAGE_KEY } from './data/snapshot.js';
 import { observeServiceErrors } from './services/result.js';
+import { createShowcaseService } from './services/showcaseService.js';
+import { renderShowcasePage } from './pages/showcasePage.js';
+import { createShowcaseMenu } from './components/showcaseMenu.js';
 
 const repository = createMockRepository();
+const showcaseService = createShowcaseService();
+const showcaseState = { status: '', scrollY: 0 };
+const isShowcase = route => ['showcase', 'showcaseTask'].includes(route.name);
 const service = observeServiceErrors(createDemoService(repository), error => {
   if (error.code === 'EXTERNAL_CHANGE') showExternalChange();
 });
@@ -17,7 +23,18 @@ const main = document.querySelector('#main-content');
 const banner = document.querySelector('#session-banner');
 const intro = document.querySelector('#intro');
 const feedback = document.querySelector('#feedback');
-const identity = document.querySelector('#active-identity');
+const showcaseIntro = document.querySelector('#showcase-intro');
+let showcaseNoticeAcknowledged = false;
+const showcaseMenu = createShowcaseMenu(document.querySelector('.showcase-menu'), status => {
+  rememberScroll();
+  showcaseState.status = status;
+  showcaseState.scrollY = 0;
+  if (resolveRoute(window.location.hash).name === 'showcase') {
+    // Do not save the old scroll position over the new filter's starting position.
+    displayedRoute = undefined;
+    retryPage();
+  } else window.location.hash = '#/showcase';
+});
 const header = document.querySelector('.header');
 const navigation = document.querySelector('.bottom-nav');
 // Measure both fixed bars so wrapped text, zoom and safe areas never cover content.
@@ -36,6 +53,15 @@ document.querySelector('#intro-confirm').addEventListener('click', () => {
 function closeIntro() {
   if (intro.open) intro.close();
 }
+function closeShowcaseIntro() {
+  if (showcaseIntro.open) showcaseIntro.close();
+}
+document.querySelector('#showcase-confirm').addEventListener('click', () => {
+  showcaseNoticeAcknowledged = true;
+  closeShowcaseIntro();
+  (main.querySelector('h1') ?? main).focus({ preventScroll: true });
+});
+showcaseIntro.addEventListener('cancel', () => { showcaseNoticeAcknowledged = true; });
 function syncIntro(session) {
   document.querySelector('#intro-storage-warning').hidden = session.persistence.mode !== 'memory';
   if (session.introAcknowledged) {
@@ -57,15 +83,22 @@ function getMyTasksState(userId) {
   return taskStates.get(userId);
 }
 function rememberScroll() {
+  if (displayedRoute === 'showcase') showcaseState.scrollY = window.scrollY;
   if (displayedRoute === 'hall') hallState.scrollY = window.scrollY;
   if (displayedRoute === 'tasks' && displayedUserId) getMyTasksState(displayedUserId).scrollY = window.scrollY;
 }
 function showExternalChange() {
-  if (externalChange) return;
-  externalChange = true;
+  if (!externalChange) {
+    externalChange = true;
+    repository.invalidate(); ready = false;
+  }
+  // Read-only examples remain available even when another tab changes the session.
+  if (isShowcase(resolveRoute(window.location.hash))) return;
+  showcaseMenu.sync(false, showcaseState.status);
   closeIntro();
-  repository.invalidate(); ready = false; pageController?.abort(); ++renderVersion;
-  main.inert = true; identity.inert = true;
+  pageController?.abort(); ++renderVersion;
+  closeShowcaseIntro();
+  main.inert = true;
   document.querySelector('.bottom-nav').inert = true;
   banner.replaceChildren(el('section', { class: 'notice', role: 'alert' },
     el('p', {}, '其他标签页已更新本机演示记录。请刷新此页后继续，未提交输入可能丢失。'),
@@ -120,7 +153,9 @@ document.querySelector('.skip-link').addEventListener('click', event => {
 function setBusy(value) {
   busy = value;
   document.querySelector('#app').setAttribute('aria-busy', String(value));
-  for (const control of document.querySelectorAll('#app button, #app select')) control.disabled = value;
+  for (const control of document.querySelectorAll('#app button, #app select')) {
+    if (!control.closest('.showcase-menu') && control.id !== 'showcase-confirm') control.disabled = value;
+  }
   if (!value && intro.open && document.activeElement === intro) document.querySelector('#intro-confirm').focus({ preventScroll: true });
 }
 
@@ -135,10 +170,11 @@ function showFailure(error) {
   ++renderVersion;
   ready = false;
   lastError = error;
+  banner.hidden = false;
+  showcaseMenu.sync(false, showcaseState.status);
   banner.replaceChildren();
   closeIntro();
-  identity.firstElementChild.textContent = '同';
-  identity.setAttribute('aria-label', '身份尚未就绪，查看我的资料');
+  closeShowcaseIntro();
   const recoverable = ['SNAPSHOT_INVALID', 'SCHEMA_UNSUPPORTED'].includes(error.code);
   main.replaceChildren(el('section', { class: 'panel error-panel' },
     el('h1', { tabindex: '-1' }, '暂时无法进入演示'), el('p', {}, error.message),
@@ -152,10 +188,33 @@ async function render(focus = false) {
   pageController = controller;
   const version = ++renderVersion;
   const route = resolveRoute(window.location.hash);
+  const examples = isShowcase(route);
+  showcaseMenu.sync(examples, showcaseState.status);
+  banner.hidden = examples;
   for (const link of document.querySelectorAll('.bottom-nav a')) {
     const active = link.dataset.page === route.name || (route.name === 'task' && link.dataset.page === taskOrigin);
     if (active) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
   }
+  if (examples) {
+    closeIntro();
+    main.inert = navigation.inert = false;
+    main.replaceChildren(el('p', { class: 'loading', role: 'status' }, '正在加载固定样例…'));
+    const page = await renderShowcasePage(route, showcaseService, { state: showcaseState, signal: controller.signal, retry: retryPage });
+    if (version !== renderVersion) return;
+    main.replaceChildren(page);
+    displayedRoute = route.name;
+    displayedUserId = undefined;
+    document.title = `${page.querySelector('h1')?.textContent ?? '样例展示'} · 校园跑腿互助平台`;
+    if (focus) main.querySelector('h1')?.focus({ preventScroll: true });
+    if (route.name === 'showcaseTask') window.scrollTo(0, 0);
+    if (!showcaseNoticeAcknowledged && !showcaseIntro.open) {
+      showcaseMenu.close();
+      showcaseIntro.showModal();
+    }
+    return;
+  }
+  closeShowcaseIntro();
+  if (externalChange) { showExternalChange(); return; }
   if (!ready) return;
   const result = await service.getSession();
   if (version !== renderVersion) return;
@@ -166,10 +225,6 @@ async function render(focus = false) {
     myTasksState: getMyTasksState(session.activeUser.id), taskOrigin, onTaskOrigin: origin => { taskOrigin = origin; },
     onPersistence: persistence => { if (!controller.signal.aborted) showPersistence(persistence); } });
   if (version !== renderVersion) return;
-  identity.firstElementChild.textContent = session.activeUser.avatarText;
-  identity.setAttribute('aria-label', `${session.activeUser.nickname}，查看我的资料`);
-  identity.title = `${session.activeUser.nickname} · 查看我的资料`;
-  if (route.name === 'me') identity.setAttribute('aria-current', 'page'); else identity.removeAttribute('aria-current');
   const currentSession = await service.getSession();
   if (version !== renderVersion) return;
   showPersistence(currentSession.ok ? currentSession.data.persistence : session.persistence);
@@ -239,33 +294,46 @@ async function initialize() {
   try {
     const result = await service.initialize();
     if (externalChange) return;
-    if (!result.ok) { showFailure(result.error); return; }
+    if (!result.ok) {
+      if (isShowcase(resolveRoute(window.location.hash))) lastError = result.error;
+      else showFailure(result.error);
+      return;
+    }
     ready = true;
     lastError = null;
     await render();
   } catch {
-    if (!externalChange) showFailure({ code: 'INTERNAL_ERROR', message: '页面加载未完成，请重试。' });
+    if (!externalChange) {
+      const error = { code: 'INTERNAL_ERROR', message: '页面加载未完成，请重试。' };
+      if (isShowcase(resolveRoute(window.location.hash))) lastError = error;
+      else showFailure(error);
+    }
   } finally { setBusy(false); }
 }
 
 function retryPage() {
-  if (!ready || externalChange) return;
+  const examples = isShowcase(resolveRoute(window.location.hash));
+  if (!examples && (!ready || externalChange)) return;
   const pending = render(true);
   const version = renderVersion;
   void pending.catch(() => {
-    if (externalChange || version !== renderVersion) return;
+    if ((!examples && externalChange) || version !== renderVersion) return;
     pageController?.abort();
     main.replaceChildren(el('section', { class: 'panel error-panel', role: 'alert' },
-      el('h1', { tabindex: '-1' }, '页面暂时无法显示'), el('p', {}, '请重试此页，本次会话内的发布输入仍会保留。'),
-      button('重试此页', retryPage), el('a', { href: '#/hall', class: 'button button-secondary' }, '返回任务大厅')));
+      el('h1', { tabindex: '-1' }, '页面暂时无法显示'), el('p', {}, examples ? '可以重试样例，你的体验记录不会改变。' : '请重试此页，本次会话内的发布输入仍会保留。'),
+      button('重试此页', retryPage), el('a', { href: examples ? '#/showcase' : '#/hall', class: 'button button-secondary' }, examples ? '返回样例展示' : '返回任务大厅')));
     main.querySelector('h1')?.focus();
   });
 }
 
 startRouter(() => {
-  if (resolveRoute(window.location.hash).name === 'hall') taskOrigin = 'hall';
+  const route = resolveRoute(window.location.hash);
+  showcaseMenu.close();
+  if (!isShowcase(route)) closeShowcaseIntro();
+  if (route.name === 'hall') taskOrigin = 'hall';
   announce('');
-  if (ready) retryPage();
-  else if (lastError) showFailure(lastError);
+  if (isShowcase(route) || ready) retryPage();
+  else if (externalChange) { banner.hidden = false; showExternalChange(); }
+  else if (lastError) { banner.hidden = false; showFailure(lastError); }
+  else if (!busy) void initialize();
 });
-void initialize();
